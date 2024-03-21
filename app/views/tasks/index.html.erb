@@ -1,0 +1,56 @@
+<% if flash[:save_success] %>
+  <div class = "over_flow">
+    <p class = "save_success"><%= flash[:save_success] %></p>
+    <input type = "checkbox" id = "1"><label for = "1" class = "button_for_delete_flash">ok</label>
+  </div>
+<% end %>
+
+<div class = "table">
+  <div class= "table_header">
+    <div class = "table_title">
+      <h3>スケジュール情報一覧</h3>
+      <p class = "tasks_count">全<%=  @tasks.count %>件</p>
+      <p class = "date"><%= @date.strftime("%Y/%-m/%-d") %></p>
+    </div>
+    <p><%= link_to "新規登録", :new_task %></p>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>開始日</th>
+        <th>終了日</th>
+        <th>終日</th>
+        <th>更新日時</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @tasks.each do |task| %>
+        <tr>
+          <td><%= task.id %></td>
+          <td><%= task.title %></td>
+          <td><%= task.start_date.strftime("%Y/%-m/%-d") %></td>
+          <td><%= task.end_date.strftime("%Y/%-m/%-d") %></td>
+          <td>
+            <%= if task.is_all_day then  p "⚪︎" end %>
+          </td>
+          <td><%= task.updated_at.to_s(:datetime_jp) %></td>
+          <td>
+              <%= link_to "詳細", task %>
+          </td>
+          <td>
+              <%= link_to "編集", [:edit, task] %>
+          </td>
+          <td>
+              <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
